@@ -1,0 +1,65 @@
+django-admin startproject django_project
+cd django_project
+python3 manage.py startapp appkit
+
+project_name/settings.py
+    INSTALLED_APPS = [
+        ...
+        'appkit'
+    ]
+    TEMPLATES
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+
+    STATIC_URL = '/static/'
+    STATIC_DIR = (os.path.join(BASE_DIR, 'static'))
+    STATICFILES_DIRS = (
+        os.path.join(BASE_DIR, 'static'),
+    )
+create folders
+    project_name/static
+    project_name/templates
+    project_name/templates/appkit
+copy
+    assets(css,images,js) -> project_name/static
+    index.html -> project_name/templates/appkit
+
+project_name/urls.py
+    from django.contrib import admin
+    from django.urls import path, include
+
+    urlpatterns = [
+        path('admin/', admin.site.urls),
+        path('', include('appkit.urls')),
+    ]
+
+app_name/views.py
+    from django.shortcuts import render
+
+    def home(request):
+        return render(request, 'appkit/index.html')
+
+app_name/urls.py
+    from django.urls import path
+    from .views import home
+
+    urlpatterns = [
+        path('', home)
+    ]
+project_name/templates/appkit/index.html
+    <!DOCTYPE html>
+    {% load static %}
+    ...
+    <link id="theme-style" rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
+    ...
+    <script type="text/javascript" src="{% static 'assets/js/main.js' %}"></script>
+    ...
+replace
+    "assets/images/
+    "/static/assets/images/
+
+python3 manage.py migrate
+python3 manage.py makemigrations
+
+
+
+
